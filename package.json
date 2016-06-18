@@ -9,7 +9,12 @@
   "author": "Nitin Pradeep Kumar",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.1",
+    "ejs": "^2.4.2",
+    "ejs-mate": "^2.3.0",
     "express": "^4.14.0",
+    "mongoose": "^4.5.0",
     "morgan": "^1.7.0"
   }
 }
