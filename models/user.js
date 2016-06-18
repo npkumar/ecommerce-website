@@ -19,6 +19,21 @@ var UserSchema = new Schema({
    }]
 });
 
-// password hashing
+// password hashing before save
+UserSchema.pre("save", function(next){
+    var user = this;
+    // if user is not modified
+    if (!user.isModified()) return next();
+    // else create salt
+    bcrypt.genSalt(10, function(err, salt){
+        if (err) return next(err);
+        // create hash using this salt, third para for progress 
+        bcrypt.hash(user.password, salt, null, function(err, hash){
+           if (err) return next(err);
+           user.password = hash;
+           next();
+        });
+    });
+});
 
 // compare password with that in db
