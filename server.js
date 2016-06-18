@@ -17,6 +17,7 @@ mongoose.connect("mongodb://getnpk:getnpk@ds017544.mlab.com:17544/ecommerce", fu
     }
 });
 
+app.use(express.static(__dirname + "/public"));
 app.use(morgan("dev"));
 
 //app.use(bodyParser.json());
