@@ -1,6 +1,9 @@
 var express = require("express");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
+var bodyParser = require("body-parser");
+
+var User = require("./models/user.js");
 
 var app = express();
 
@@ -14,9 +17,18 @@ mongoose.connect("mongodb://getnpk:getnpk@ds017544.mlab.com:17544/ecommerce", fu
 
 app.use(morgan("dev"));
 
-app.get("/", function(req, res){
-    res.json({
-        "name": "getnpk"
+//app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.post("/create-user", function(req, res, next){
+    var user = new User();
+    user.profile.name = req.body.name;
+    user.password = req.body.password;
+    user.email = req.body.email;
+    
+    user.save(function(err){
+       if (err) return next(err);
+       res.json({"message": "Successfully saved user " + user.profile.name});
     });
 });
 
