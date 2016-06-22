@@ -10,11 +10,13 @@ var session = require("express-session");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
 
+var config = require("./config/config.js");
+
 var User = require("./models/user.js");
 
 var app = express();
 
-mongoose.connect("mongodb://getnpk:getnpk@ds017544.mlab.com:17544/ecommerce", function(err){
+mongoose.connect(config.database, function(err){
     if (err){
         console.log(err);
     } else {
@@ -33,12 +35,19 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: "@nitin!"
+    secret: config.secretKey
 }));
 app.use(flash());
 
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
+
+app.get("/*", function(req, res, next){
+    if(typeof req.cookies["connect.sid"] !== "undefined"){
+        console.log("Cookie: " + req.cookies["connect.sid"]);
+    }
+    next();
+});
 
 //Routers
 var mainRoutes = require("./routes/main");
@@ -46,7 +55,7 @@ app.use(mainRoutes);
 var userRoutes = require("./routes/user");
 app.use(userRoutes);
 
-app.listen("8080", function(err){
+app.listen(config.port, function(err){
    if (err) throw err;
-   console.log("Server is up at 8080");
+   console.log("Server is up at " + config.port);
 });
