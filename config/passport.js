@@ -1,5 +1,5 @@
 var passport = require("passport");
-var LocalStrategy = require("passport-local").Strategy();
+var LocalStrategy = require("passport-local").Strategy;
 
 var User = require("../models/user.js");
 
@@ -15,7 +15,7 @@ passport.deserializeUser(function(id, done){
 });
 
 // middleware
-passport.use("passport-login", new LocalStrategy({
+passport.use("local-login", new LocalStrategy({
     usernameField: "email",
     passportField: "password",
     passReqToCallback: true
