@@ -10,6 +10,8 @@ var session = require("express-session");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
 
+var MongoStore = require("connect-mongo")(session);
+
 var config = require("./config/config.js");
 
 var User = require("./models/user.js");
@@ -35,7 +37,11 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: config.secretKey
+    secret: config.secretKey, 
+    store: new MongoStore({
+        url: config.database,
+        autoReconnect: true
+    })
 }));
 app.use(flash());
 
