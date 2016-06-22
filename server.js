@@ -2,8 +2,13 @@ var express = require("express");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+
 var ejs = require("ejs");
 var engine = require("ejs-mate");
+
+var session = require("express-session");
+var cookieParser = require("cookie-parser");
+var flash = require("express-flash");
 
 var User = require("./models/user.js");
 
@@ -22,6 +27,15 @@ app.use(morgan("dev"));
 
 //app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+// needed for flash messages
+app.use(cookieParser());
+app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: "@nitin!"
+}));
+app.use(flash());
 
 app.engine("ejs", engine);
 app.set("view engine", "ejs");

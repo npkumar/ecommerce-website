@@ -2,7 +2,9 @@ var router = require("express").Router();
 var User = require("../models/user");
 
 router.get("/signup", function(req, res, next){
-    res.render("accounts/signup");
+    res.render("accounts/signup", {
+        "errors": req.flash("errors")
+    });
 });
 
 router.post("/signup", function(req, res, next) {
@@ -19,14 +21,14 @@ router.post("/signup", function(req, res, next) {
         }
         if (existingUser) {
             console.log("The user exists: " + req.body.email);
+            req.flash("errors", "Account with " + req.body.email + " exists!");
             return res.redirect("/signup");
         }
         else {
             user.save(function(err) {
                 if (err) return next(err);
-                res.json({
-                    "message": "Successfully created user " + user.profile.name
-                });
+                console.log("Successfully created user " + user.profile.name);
+                return res.redirect("/");
             });
         }
     });
