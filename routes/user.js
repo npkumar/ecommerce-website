@@ -16,6 +16,11 @@ router.post("/login", passport.authenticate("local-login", {
     failureFlash: true
 }));
 
+router.get("/logout", function(req, res) {
+    req.logout();
+    res.redirect("/");
+});
+
 router.get("/profile", function(req, res, next) {
     User.findOne({_id: req.user._id}, function(err, user) {
         if (err) return next(err);
