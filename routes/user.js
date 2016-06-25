@@ -39,6 +39,7 @@ router.post("/signup", function(req, res, next) {
     user.profile.name = req.body.name;
     user.password = req.body.password;
     user.email = req.body.email;
+    user.profile.picture = user.gravatar();
 
     User.findOne({
         email: req.body.email
@@ -55,7 +56,13 @@ router.post("/signup", function(req, res, next) {
             user.save(function(err) {
                 if (err) return next(err);
                 console.log("Successfully created user " + user.profile.name);
-                return res.redirect("/");
+                
+                //return res.redirect("/");
+                // post signup store cookie
+                req.logIn(user, function(err){
+                   if (err) return next(err);
+                   res.redirect("/profile");
+                });
             });
         }
     });
