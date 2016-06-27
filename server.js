@@ -83,6 +83,8 @@ var userRoutes = require("./routes/user");
 app.use(userRoutes);
 var adminRoutes = require("./routes/admin");
 app.use(adminRoutes);
+var apiRoutes = require("./api/api");
+app.use("/api", apiRoutes);
 
 app.listen(config.port, function(err){
    if (err) throw err;
