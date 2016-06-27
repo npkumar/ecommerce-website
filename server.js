@@ -71,6 +71,8 @@ var mainRoutes = require("./routes/main");
 app.use(mainRoutes);
 var userRoutes = require("./routes/user");
 app.use(userRoutes);
+var adminRoutes = require("./routes/admin");
+app.use(adminRoutes);
 
 app.listen(config.port, function(err){
    if (err) throw err;
