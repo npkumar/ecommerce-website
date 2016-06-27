@@ -19,6 +19,7 @@ router.get("/users", function(req, res){
    });
 });
 
+// categories page
 router.get("/products/:id", function(req, res, next){
    Product
    .find({category: req.params.id})
@@ -27,6 +28,16 @@ router.get("/products/:id", function(req, res, next){
       if (err) return next(err);
       res.render("main/category", {
          products: products
+      });
+   });
+});
+
+// single product page
+router.get("/product/:id", function(req, res, next){
+   Product.findById({_id: req.params.id}, function(err, product){
+      if (err) return next(err);
+      res.render("main/product", {
+         product: product
       });
    });
 });
